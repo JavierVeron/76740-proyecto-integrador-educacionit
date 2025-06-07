@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "nombre": "SAMSUNG Teléfono celular Galaxy S25 Ultra",
+        "precio": "1169.99",
+        "stock": 10,
+        "marca": "Samsung",
+        "categoria": "celulares",
+        "detalles": "MÚLTIPLES TAREAS CON UNA PREGUNTA: Optimiza tu día con un asistente que te atrape. Pídelo a Google busca un restaurante vegano que admita mascotas cerca y envíelo a tu amigo: tu Galaxy S25 Ultra maneja múltiples tareas con una sola pregunta",
+        "foto": "https://m.media-amazon.com/images/I/61n0lmxP5-L._AC_SX679_.jpg",
+        "envio": false
+    },
+    {
+        "id": 2,
+        "nombre": "Juego de sábanas de 4 piezas tamaño Queen",
+        "precio": "28.04",
+        "stock": 9,
+        "marca": "CGK Unlimited",
+        "categoria": "sabanas",
+        "detalles": "Juego de sábanas de 4 piezas: 2 fundas de almohada y una sábana encimera y sábana bajera. Sábana encimera (102 x 90 pulgadas), sábana bajera (80 x 60 pulgadas), 2 fundas de almohada (20 x 30 pulgadas).",
+        "foto": "https://m.media-amazon.com/images/I/61OGrVQSe3L._AC_SY879_.jpg",
+        "envio": true
+    },
+    {
+        "id": 3,
+        "nombre": "FREEDOM GROOMING The FlexSeries - Afeitadora de cabello eléctrica inalámbrica y recargable para hombre",
+        "precio": "50.97",
+        "stock": 8,
+        "marca": "Free bird",
+        "categoria": "afeitadoras",
+        "detalles": "WATER-RESISTANT SHAVING: Experience the versatility of the FlexSeries, ideal for a quick dry shave or a gentle wet shave outside of direct water flow.",
+        "foto": "https://m.media-amazon.com/images/I/815p4xc0RrL._AC_SX522_.jpg",
+        "envio": true
+    },
+    {
+        "id": 4,
+        "nombre": "Intex Bomba de filtro de arena transparente Krystal SX2800: Caudal de la bomba de 2800 GPH",
+        "precio": "171.32",
+        "stock": 10,
+        "marca": "Intex",
+        "categoria": "bombas",
+        "detalles": "Tecnología de hidroaeroeración de INTEX - Transformando la industria de piscinas sobre el suelo, aportando beneficios revolucionarios de aireación de agua, como mejor circulación y filtración, mayor claridad del agua, aumento de iones negativos en la superficie del agua.",
+        "foto": "https://m.media-amazon.com/images/I/71pGo2rSeRL._AC_SX679_.jpg",
+        "envio": false
+    },
+    {
+        "id": 5,
+        "nombre": "Soplador de hojas eléctrico inalámbrico - Soplador de hojas de mano de 400000 RPM",
+        "precio": "69.98",
+        "stock": 7,
+        "marca": "YUQUESEN",
+        "categoria": "sopladores",
+        "detalles": "El soplador de hojas está diseñado con un motor de turbina sin escobillas de alta velocidad y palas de aire de aleación de aluminio, con una velocidad de rotación de hasta 400000RPM, generando un flujo de aire de alta velocidad de más de 50 M/S.",
+        "foto": "https://m.media-amazon.com/images/I/71B7vg0KUrL._AC_SX679_.jpg",
+        "envio": false
+    },
+    {
+        "id": 6,
+        "nombre": "SUPFINE - Funda magnética para iPhone 14 y iPhone 13, apta para MagSafe (protección contra caídas de grado militar de 10 pies)",
+        "precio": "7.99",
+        "stock": 10,
+        "marca": "SUPFINE",
+        "categoria": "fundas",
+        "detalles": "Superatracción magnética: potentes imanes integrados, carga inalámbrica más fácil de colocar y usar y compatible con MagSafe.",
+        "foto": "https://m.media-amazon.com/images/I/712r5LuKi1L._AC_SX679_.jpg",
+        "envio": true
+    }
+]
