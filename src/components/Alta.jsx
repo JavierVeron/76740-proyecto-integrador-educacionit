@@ -83,6 +83,7 @@ const Alta = () => {
         if (confirmar) {
            const productosActualizados = items.filter(item => item.id != id);
            setItems([...productosActualizados]);
+           console.log("Se eliminó el Producto #" + id + "!");
         }
     }
 
