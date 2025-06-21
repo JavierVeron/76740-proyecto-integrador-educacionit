@@ -11,17 +11,80 @@ const Alta = () => {
     const [detalles, setDetalles] = useState("Obtén un 66% más de cobertura vertical con la versión más reciente del Timbre con cámara Ring (2.ª generación) de superventas que ahora incluye video de cuerpo completo.");
     const [foto, setFoto] = useState("https://m.media-amazon.com/images/I/51WbH+NMfVL._SY450_.jpg");
     const [envio, setEnvio] = useState(false);
+    const [edicion, setEdicion] = useState(false);
+    const [idProducto, setIdProducto] = useState(0);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const id = productos.length + 1;
-        setEnvio(envio ? true : false);
-        const nuevoProducto = {id, nombre, precio, stock, marca, categoria, detalles, foto, envio};
-        console.log(nuevoProducto);
-        setItems([...items, nuevoProducto]);
-        console.log("Se agregó el Producto #" + id + "!");
+
+        if (edicion) {
+            const producto = items.find(item => item.id == idProducto);
+            producto.nombre = nombre;
+            producto.precio = precio;
+            producto.stock = stock;
+            producto.marca = marca;
+            producto.categoria = categoria;
+            producto.detalles = detalles;
+            producto.foto = foto;
+            producto.envio = envio;
+            setItems([...items]);
+            console.log("Se actualizó el Producto #" + idProducto + "!");
+        } else {
+            const id = productos.length + 1;
+            setEnvio(envio ? true : false);
+            const nuevoProducto = {id, nombre, precio, stock, marca, categoria, detalles, foto, envio};
+            console.log(nuevoProducto);
+            setItems([...items, nuevoProducto]);
+            console.log("Se agregó el Producto #" + id + "!");
+        }
+
+        vaciarCampos();
     }
 
+    const actualizarCampos = (item) => {
+        setNombre(item.nombre);
+        setPrecio(item.precio);
+        setStock(item.stock);
+        setMarca(item.marca);
+        setCategoria(item.categoria);
+        setDetalles(item.detalles);
+        setFoto(item.foto);
+        setEnvio(item.envio);
+    }
+
+    const vaciarCampos = () => {
+        setNombre("");
+        setPrecio("");
+        setStock("");
+        setMarca("");
+        setCategoria("");
+        setDetalles("");
+        setFoto("");
+        setEnvio("");
+    }
+
+    const actualizarProducto = (id) => {
+        setEdicion(true);
+        setIdProducto(id);
+        const producto = items.find(item => item.id == id);        
+        actualizarCampos(producto);
+    }
+
+    const cancelarEdicion = () => {
+        setEdicion(false);
+        setIdProducto(0);
+        vaciarCampos();
+    }
+
+    const eliminarProducto = (id) => {
+        const producto = items.find(item => item.id == id);
+        const confirmar = confirm("Desea eliminar el producto:\n\n" + producto.nombre)
+
+        if (confirmar) {
+           const productosActualizados = items.filter(item => item.id != id);
+           setItems([...productosActualizados]);
+        }
+    }
 
     return (
         <div className="container my-5">
@@ -58,10 +121,11 @@ const Alta = () => {
                             <textarea className="form-control" value={foto} onInput={(e) => {setFoto(e.target.value)}}></textarea>
                         </div>
                         <div className="form-check mb-3">
-                            <input className="form-check-input" type="checkbox" value={envio} />
+                            <input className="form-check-input" type="checkbox" value={envio} checked={envio ? "checekd" : ""} onChange={(e) => {setEnvio(e.target.value)}} />
                             <label className="form-check-label">Envío Gratis</label>
                         </div>
-                        <button type="submit" className="btn btn-primary">Enviar</button>
+                        <button type="submit" className="btn btn-primary">{edicion ? "Actualizar" : "Guardar"}</button>
+                        {edicion ? <button type="button" className="btn btn-primary ms-2" onClick={cancelarEdicion}>Cancelar</button> : ""}
                     </form>
                 </div>
             </div>
@@ -71,14 +135,14 @@ const Alta = () => {
                     <tbody>
                     {
                         items.map(item => (
-                            <tr key={item.id}>
+                            <tr key={item.id} className={item.id == idProducto ? "table-active" : ""}>
                                 <td><img src={item.foto} alt={item.nombre} width={64} /></td>
                                 <td className="align-middle">{item.nombre}</td>
                                 <td className="align-middle">${item.precio}</td>
                                 <td className="align-middle">{item.marca}</td>
                                 <td className="align-middle">{item.categoria}</td>
                                 <td className="align-middle">1</td>
-                                <td className="align-middle text-end"><button className="btn btn-dark text-white btn-sm">Eliminar</button></td>
+                                <td className="align-middle text-end"><button className="btn btn-dark text-white btn-sm" onClick={() => {actualizarProducto(item.id)}}>Editar</button><button className={`btn btn-dark text-white btn-sm ms-2 ${edicion ? "disabled" : ""}`} onClick={() => {eliminarProducto(item.id)}}>Eliminar</button></td>
                             </tr>
                         ))
                     }
