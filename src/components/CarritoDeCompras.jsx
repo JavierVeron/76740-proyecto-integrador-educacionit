@@ -1,12 +1,11 @@
+import { useContext } from "react"
 import productos from "../assets/productos.json"
+import { APIContext } from "./context/APIContext"
 
 const CarritoDeCompras = () => {
-    const producto1 = productos.find(item => item.id == 1);
-    const producto2 = productos.find(item => item.id == 2);
-    const carrito = [producto1, producto2];
-    //const carrito = [];
+    const {carrito, eliminarProductoCarrito, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito} = useContext(APIContext);
 
-    if (carrito.length == 0) {
+    if (cantidadProductosCarrito() == 0) {
         return (
             <div className="container my-5">
                 <div className="row">
@@ -22,19 +21,32 @@ const CarritoDeCompras = () => {
                 <h2 className="display-6 text-center mb-3">Carrito de Compras</h2>
                 <table className="table">
                     <tbody>
-                    {
-                        carrito.map(item => (
-                            <tr key={item.id}>
-                                <td><img src={item.foto} alt={item.nombre} width={64} /></td>
-                                <td className="align-middle">{item.nombre}</td>
-                                <td className="align-middle">${item.precio}</td>
-                                <td className="align-middle">{item.marca}</td>
-                                <td className="align-middle">{item.categoria}</td>
-                                <td className="align-middle">1</td>
-                                <td className="align-middle text-end"><button className="btn btn-dark text-white btn-sm">Eliminar</button></td>
-                            </tr>
-                        ))
-                    }
+                        <tr>
+                            <td colSpan={8} className="text-end">
+                                <button className="btn btn-dark text-white btn-sm" onClick={vaciarCarrito}>Vaciar Carrito</button>
+                            </td>
+                        </tr>
+                        {
+                            carrito.map(item => (
+                                <tr key={item.id}>
+                                    <td><img src={item.foto} alt={item.nombre} width={64} /></td>
+                                    <td className="align-middle">{item.nombre}</td>
+                                    <td className="align-middle">${item.precio}</td>
+                                    <td className="align-middle">x{item.cantidad}</td>
+                                    <td className="align-middle">${item.cantidad * item.precio}</td>
+                                    <td className="align-middle">{item.marca}</td>
+                                    <td className="align-middle">{item.categoria}</td>
+                                    <td className="align-middle text-end">
+                                        <button className="btn btn-dark text-white btn-sm" onClick={() => {eliminarProductoCarrito(item.id)}}>Eliminar</button>
+                                        </td>
+                                </tr>
+                            ))
+                        }
+                        <tr>
+                            <td colSpan={4} className="text-center"><b>Total a Pagar</b></td>
+                            <td>${sumaProductosCarrito().toFixed(2)}</td>
+                            <td colSpan={3}>&nbsp;</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

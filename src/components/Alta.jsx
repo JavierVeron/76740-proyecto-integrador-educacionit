@@ -1,8 +1,9 @@
-import productos from "../assets/productos.json"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { APIContext } from "./context/APIContext";
 
 const Alta = () => {
-    const [items, setItems] = useState(productos);
+    const {productos, agregarProducto, actualizarProducto, eliminarProducto} = useContext(APIContext);
+    const [items, setItems] = useState([]);
     const [nombre, setNombre] = useState("Timbre Ring con batería");
     const [precio, setPrecio] = useState(109.98);
     const [stock, setStock] = useState(8);
@@ -14,28 +15,19 @@ const Alta = () => {
     const [edicion, setEdicion] = useState(false);
     const [idProducto, setIdProducto] = useState(0);
 
+    useEffect(() => {
+        setItems(productos);
+    }, [productos])
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if (edicion) {
-            const producto = items.find(item => item.id == idProducto);
-            producto.nombre = nombre;
-            producto.precio = precio;
-            producto.stock = stock;
-            producto.marca = marca;
-            producto.categoria = categoria;
-            producto.detalles = detalles;
-            producto.foto = foto;
-            producto.envio = envio;
-            setItems([...items]);
-            console.log("Se actualizó el Producto #" + idProducto + "!");
+            actualizarProducto(idProducto, {nombre, precio, stock, marca, categoria, detalles, foto, envio});
+            cancelarEdicion();
         } else {
-            const id = productos.length + 1;
             setEnvio(envio ? true : false);
-            const nuevoProducto = {id, nombre, precio, stock, marca, categoria, detalles, foto, envio};
-            console.log(nuevoProducto);
-            setItems([...items, nuevoProducto]);
-            console.log("Se agregó el Producto #" + id + "!");
+            agregarProducto({nombre, precio, stock, marca, categoria, detalles, foto, envio});
         }
 
         vaciarCampos();
@@ -63,7 +55,7 @@ const Alta = () => {
         setEnvio("");
     }
 
-    const actualizarProducto = (id) => {
+    const actualizar = (id) => {
         setEdicion(true);
         setIdProducto(id);
         const producto = items.find(item => item.id == id);        
@@ -76,14 +68,12 @@ const Alta = () => {
         vaciarCampos();
     }
 
-    const eliminarProducto = (id) => {
+    const eliminar = (id) => {
         const producto = items.find(item => item.id == id);
         const confirmar = confirm("Desea eliminar el producto:\n\n" + producto.nombre)
 
         if (confirmar) {
-           const productosActualizados = items.filter(item => item.id != id);
-           setItems([...productosActualizados]);
-           console.log("Se eliminó el Producto #" + id + "!");
+           eliminarProducto(id);
         }
     }
 
@@ -122,7 +112,7 @@ const Alta = () => {
                             <textarea className="form-control" value={foto} onInput={(e) => {setFoto(e.target.value)}}></textarea>
                         </div>
                         <div className="form-check mb-3">
-                            <input className="form-check-input" type="checkbox" value={envio} checked={envio ? "checekd" : ""} onChange={(e) => {setEnvio(e.target.value)}} />
+                            <input className="form-check-input" type="checkbox" value={envio} checked={envio ? "checked" : ""} onChange={(e) => {setEnvio(envio ? false : true)}} />
                             <label className="form-check-label">Envío Gratis</label>
                         </div>
                         <button type="submit" className="btn btn-primary">{edicion ? "Actualizar" : "Guardar"}</button>
@@ -143,7 +133,7 @@ const Alta = () => {
                                 <td className="align-middle">{item.marca}</td>
                                 <td className="align-middle">{item.categoria}</td>
                                 <td className="align-middle">1</td>
-                                <td className="align-middle text-end"><button className="btn btn-dark text-white btn-sm" onClick={() => {actualizarProducto(item.id)}}>Editar</button><button className={`btn btn-dark text-white btn-sm ms-2 ${edicion ? "disabled" : ""}`} onClick={() => {eliminarProducto(item.id)}}>Eliminar</button></td>
+                                <td className="align-middle text-end"><button className="btn btn-dark text-white btn-sm" onClick={() => {actualizar(item.id)}}>Editar</button><button className={`btn btn-dark text-white btn-sm ms-2 ${edicion ? "disabled" : ""}`} onClick={() => {eliminar(item.id)}}>Eliminar</button></td>
                             </tr>
                         ))
                     }
