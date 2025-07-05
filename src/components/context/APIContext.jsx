@@ -1,25 +1,38 @@
 import { createContext, useEffect, useState } from "react";
-import productosJSON from "../../assets/productos.json";
+import APIClient from "../APIClient";
 
 export const APIContext = createContext();
 
 const APIContextProvider = ({children}) => {
     const [productos, setProductos] = useState([]);
     const [carrito, setCarrito] = useState([]);
+    const [actualizado, setActualizado] = useState(true);
 
     useEffect(() => {
-        setProductos(productosJSON)
-    }, [])
+        if (actualizado) {
+            (async () => {
+                const response = await APIClient.get("/productos");
+                setProductos(response.data);
+                setActualizado(false);
+            })();
+        }
+    }, [actualizado])
 
     const generarId = () => {
         return productos.length + 1;
     }
 
-    const agregarProducto = ({nombre, precio, stock, marca, categoria, detalles, foto, envio}) => {
+    const agregarProducto = async ({nombre, precio, stock, marca, categoria, detalles, foto, envio}) => {
         const id = generarId();
         const nuevoProducto = {id, nombre, precio, stock, marca, categoria, detalles, foto, envio};
-        setProductos([...productos, nuevoProducto]);
-        console.log("Se agregó el Producto #" + id + "!");
+        APIClient.post("/productos", nuevoProducto)
+        .then(response => {
+            console.log("Se agregó el Producto #" + id + "!");
+            setActualizado(true);
+        })
+        .catch(error => {
+            console.log("Error! No se pudo agregar el Producto!");
+        }); 
     }
 
     const actualizarProducto = (id, {nombre, precio, stock, marca, categoria, detalles, foto, envio}) => {
@@ -32,14 +45,25 @@ const APIContextProvider = ({children}) => {
         producto.detalles = detalles;
         producto.foto = foto;
         producto.envio = envio;
-        setProductos([...productos]);
-        console.log("Se actualizó el Producto #" + id + "!");
+        APIClient.put("/productos/" + id, producto)
+        .then(response => {
+            console.log("Se actualizó el Producto #" + id + "!");
+            setActualizado(true);
+        })
+        .catch(error => {
+            console.log("Error! No se pudo actualizar el Producto!");
+        });
     }
 
     const eliminarProducto = (id) => {
-        const productosActualizados = productos.filter(item => item.id != id);
-        setProductos([...productosActualizados]);
-        console.log("Se eliminó el Producto #" + id + "!");
+        APIClient.delete("/productos/" + id)
+        .then(response => {
+            console.log("Se eliminó el Producto #" + id + "!");
+            setActualizado(true);
+        })
+        .catch(error => {
+            console.log("Error! No se pudo eliminar el Producto!");
+        });
     }
 
     const agregarProductoCarrito = (id) => {
@@ -96,7 +120,19 @@ const APIContextProvider = ({children}) => {
         return carrito.reduce((acum, item) => acum += item.cantidad * item.precio, 0)
     }
 
-    return <APIContext.Provider value={{productos, agregarProducto, actualizarProducto, eliminarProducto, carrito, agregarProductoCarrito, eliminarProductoCarrito, incrementarItem, decrementarItem, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito}}>
+    const agregarPedido = (pedido) => {
+        APIClient.post("/pedidos", pedido)
+        .then(response => {
+            console.log("El pedido se generó correctamente!");
+                        
+            return response.data.id;
+        })
+        .catch(error => {
+            console.log("Error! No se pudo Generar el Pedido!");
+        })
+    }
+
+    return <APIContext.Provider value={{productos, agregarProducto, actualizarProducto, eliminarProducto, carrito, agregarProductoCarrito, eliminarProductoCarrito, incrementarItem, decrementarItem, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito, agregarPedido}}>
         {children}
     </APIContext.Provider>
 }
