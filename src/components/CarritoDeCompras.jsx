@@ -1,9 +1,8 @@
 import { useContext } from "react"
-import productos from "../assets/productos.json"
 import { APIContext } from "./context/APIContext"
 
 const CarritoDeCompras = () => {
-    const {carrito, eliminarProductoCarrito, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito} = useContext(APIContext);
+    const {carrito, eliminarProductoCarrito, incrementarItem, decrementarItem, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito} = useContext(APIContext);
 
     if (cantidadProductosCarrito() == 0) {
         return (
@@ -32,13 +31,13 @@ const CarritoDeCompras = () => {
                                     <td><img src={item.foto} alt={item.nombre} width={64} /></td>
                                     <td className="align-middle">{item.nombre}</td>
                                     <td className="align-middle">${item.precio}</td>
-                                    <td className="align-middle">x{item.cantidad}</td>
+                                    <td className="align-middle">
+                                        <button className="btn btn-dark text-white btn-sm" onClick={() => {decrementarItem(item.id)}}>-</button> x{item.cantidad} <button className="btn btn-dark text-white btn-sm" onClick={() => {incrementarItem(item.id)}}>+</button>
+                                    </td>
                                     <td className="align-middle">${item.cantidad * item.precio}</td>
-                                    <td className="align-middle">{item.marca}</td>
-                                    <td className="align-middle">{item.categoria}</td>
                                     <td className="align-middle text-end">
                                         <button className="btn btn-dark text-white btn-sm" onClick={() => {eliminarProductoCarrito(item.id)}}>Eliminar</button>
-                                        </td>
+                                    </td>
                                 </tr>
                             ))
                         }

@@ -63,6 +63,26 @@ const APIContextProvider = ({children}) => {
         console.log("Se eliminó del Carrito el Producto #" + id + "!");
     }
 
+    const incrementarItem = (id) => {
+        const producto = carrito.find(item => item.id == id);
+
+        if (producto.cantidad < producto.stock) {
+            producto.cantidad += 1;
+            setCarrito([...carrito]);
+        }
+    }
+
+    const decrementarItem = (id) => {
+        const producto = carrito.find(item => item.id == id);
+
+        if (producto.cantidad > 1) {
+            producto.cantidad -= 1;
+            setCarrito([...carrito]);
+        } else {
+            eliminarProductoCarrito(id);
+        }
+    }
+
     const vaciarCarrito = () => {
         setCarrito([]);
         console.log("Se vació el Carrito!");
@@ -76,7 +96,7 @@ const APIContextProvider = ({children}) => {
         return carrito.reduce((acum, item) => acum += item.cantidad * item.precio, 0)
     }
 
-    return <APIContext.Provider value={{productos, agregarProducto, actualizarProducto, eliminarProducto, carrito, agregarProductoCarrito, eliminarProductoCarrito, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito}}>
+    return <APIContext.Provider value={{productos, agregarProducto, actualizarProducto, eliminarProducto, carrito, agregarProductoCarrito, eliminarProductoCarrito, incrementarItem, decrementarItem, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito}}>
         {children}
     </APIContext.Provider>
 }
