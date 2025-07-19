@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const APIClient = axios.create({
-    baseURL:"https://686928ca2af1d945cea119d2.mockapi.io"
+    baseURL:"https://68783cd631d28a460e1d9fa4.mockapi.io"
 })
 
 export default APIClient

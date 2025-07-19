@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "nombre": "SAMSUNG Teléfono celular Galaxy S25 Ultra",
         "precio": "1169.99",
         "stock": 10,
@@ -11,7 +11,7 @@
         "envio": false
     },
     {
-        "id": 2,
+        "id": "2",
         "nombre": "Juego de sábanas de 4 piezas tamaño Queen",
         "precio": "28.04",
         "stock": 9,
@@ -22,7 +22,7 @@
         "envio": true
     },
     {
-        "id": 3,
+        "id": "3",
         "nombre": "FREEDOM GROOMING The FlexSeries - Afeitadora de cabello eléctrica inalámbrica y recargable para hombre",
         "precio": "50.97",
         "stock": 8,
@@ -33,7 +33,7 @@
         "envio": true
     },
     {
-        "id": 4,
+        "id": "4",
         "nombre": "Intex Bomba de filtro de arena transparente Krystal SX2800: Caudal de la bomba de 2800 GPH",
         "precio": "171.32",
         "stock": 10,
@@ -44,7 +44,7 @@
         "envio": false
     },
     {
-        "id": 5,
+        "id": "5",
         "nombre": "Soplador de hojas eléctrico inalámbrico - Soplador de hojas de mano de 400000 RPM",
         "precio": "69.98",
         "stock": 7,
@@ -55,7 +55,7 @@
         "envio": false
     },
     {
-        "id": 6,
+        "id": "6",
         "nombre": "SUPFINE - Funda magnética para iPhone 14 y iPhone 13, apta para MagSafe (protección contra caídas de grado militar de 10 pies)",
         "precio": "7.99",
         "stock": 10,

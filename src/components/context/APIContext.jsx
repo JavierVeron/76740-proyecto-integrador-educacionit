@@ -25,7 +25,7 @@ const APIContextProvider = ({children}) => {
     const agregarProducto = async ({nombre, precio, stock, marca, categoria, detalles, foto, envio}) => {
         const id = generarId();
         const nuevoProducto = {id, nombre, precio, stock, marca, categoria, detalles, foto, envio};
-        APIClient.post("/productos", nuevoProducto)
+        await APIClient.post("/productos", nuevoProducto)
         .then(response => {
             console.log("Se agregó el Producto #" + id + "!");
             setActualizado(true);
@@ -35,7 +35,7 @@ const APIContextProvider = ({children}) => {
         }); 
     }
 
-    const actualizarProducto = (id, {nombre, precio, stock, marca, categoria, detalles, foto, envio}) => {
+    const actualizarProducto = async (id, {nombre, precio, stock, marca, categoria, detalles, foto, envio}) => {
         const producto = productos.find(item => item.id == id);
         producto.nombre = nombre;
         producto.precio = precio;
@@ -45,7 +45,7 @@ const APIContextProvider = ({children}) => {
         producto.detalles = detalles;
         producto.foto = foto;
         producto.envio = envio;
-        APIClient.put("/productos/" + id, producto)
+        await APIClient.put("/productos/" + id, producto)
         .then(response => {
             console.log("Se actualizó el Producto #" + id + "!");
             setActualizado(true);
@@ -55,8 +55,8 @@ const APIContextProvider = ({children}) => {
         });
     }
 
-    const eliminarProducto = (id) => {
-        APIClient.delete("/productos/" + id)
+    const eliminarProducto = async (id) => {
+        await APIClient.delete("/productos/" + id)
         .then(response => {
             console.log("Se eliminó el Producto #" + id + "!");
             setActualizado(true);
@@ -120,12 +120,12 @@ const APIContextProvider = ({children}) => {
         return carrito.reduce((acum, item) => acum += item.cantidad * item.precio, 0)
     }
 
-    const agregarPedido = (pedido) => {
-        APIClient.post("/pedidos", pedido)
+    const agregarPedido = async (pedido) => {
+        await APIClient.post("/pedidos", pedido)
         .then(response => {
             console.log("El pedido se generó correctamente!");
                         
-            return response.data.id;
+            return response.data;
         })
         .catch(error => {
             console.log("Error! No se pudo Generar el Pedido!");

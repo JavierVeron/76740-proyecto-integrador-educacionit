@@ -54,9 +54,7 @@ const Checkout = () => {
         setPedidoId(id);
     }
 
-    if (pedidoId > 0) {
-        console.log(pedidoId);
-        
+    if (pedidoId) {        
         return (
             <Navigate to={"/thankyou/" + pedidoId} />
         )
@@ -64,7 +62,6 @@ const Checkout = () => {
 
     return (
         <>
-            {pedidoId > 0 ? <Navigate to={"/thankyou/" + pedidoId} /> :
             <div className="container my-5">
                 <div className="row">
                     <h2 className="display-6 text-center mb-3">Checkout</h2>
@@ -110,7 +107,7 @@ const Checkout = () => {
                         </table>
                     </div>
                 </div>
-            </div>}
+            </div>
         </>
     )
 }
