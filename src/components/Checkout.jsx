@@ -3,7 +3,7 @@ import { APIContext } from "./context/APIContext";
 import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
-    const {carrito, cantidadProductosCarrito, sumaProductosCarrito, agregarPedido} = useContext(APIContext);
+    const {carrito, cantidadProductosCarrito, sumaProductosCarrito, agregarPedido, vaciarCarrito} = useContext(APIContext);
     const [nombre, setNombre] = useState("");
     const [nombreError, setNombreError] = useState("");
     const [email, setEmail] = useState("");
@@ -59,6 +59,7 @@ const Checkout = () => {
 
     useEffect(() => {        
         if (pedidoId) {
+            vaciarCarrito();
             navigate("/thankyou/" + pedidoId, {replace:true});
         }
     }, [pedidoId])
