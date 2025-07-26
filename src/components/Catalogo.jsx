@@ -1,9 +1,14 @@
-import { useContext } from "react"
 import Card from "./Card"
-import { APIContext } from "./context/APIContext"
+import { useDispatch, useSelector } from "react-redux";
+import { AGREGAR_PRODUCTO_ACTION } from "./redux/actions/productActions";
 
 const Catalogo = () => {
-    const {productos, agregarProductoCarrito} = useContext(APIContext);
+    const productos = useSelector(state => state.products);
+    const dispatch = useDispatch();
+
+    const agregarProductoCarrito = () => {
+        console.log("agregar");
+    }
 
     if (productos.length == 0) {
         return (

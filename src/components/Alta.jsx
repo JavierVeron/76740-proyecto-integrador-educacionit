@@ -1,8 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useContext, useEffect, useState } from "react"
 import { APIContext } from "./context/APIContext";
+import { AGREGAR_PRODUCTO_ACTION, EDITAR_PRODUCTO_ACTION } from "./redux/actions/productActions";
 
 const Alta = () => {
-    const {productos, agregarProducto, actualizarProducto, eliminarProducto} = useContext(APIContext);
+    const {mostrarToast, mostrarModal} = useContext(APIContext);
+    const productos = useSelector(state => state.products);
+    const dispatch = useDispatch();
+
     const [items, setItems] = useState([]);
     const [nombre, setNombre] = useState("Timbre Ring con batería");
     const [precio, setPrecio] = useState(109.98);
@@ -23,11 +28,13 @@ const Alta = () => {
         e.preventDefault();
 
         if (edicion) {
-            actualizarProducto(idProducto, {nombre, precio, stock, marca, categoria, detalles, foto, envio});
+            dispatch(EDITAR_PRODUCTO_ACTION(idProducto, {nombre, precio, stock, marca, categoria, detalles, foto, envio}));
+            mostrarToast("Se editó el Producto!", "ok");
             cancelarEdicion();
         } else {
             setEnvio(envio ? true : false);
-            agregarProducto({nombre, precio, stock, marca, categoria, detalles, foto, envio});
+            dispatch(AGREGAR_PRODUCTO_ACTION({nombre, precio, stock, marca, categoria, detalles, foto, envio}));
+            mostrarToast("Se agregó el Producto!", "ok");
         }
 
         vaciarCampos();
@@ -69,12 +76,8 @@ const Alta = () => {
     }
 
     const eliminar = (id) => {
-        const producto = items.find(item => item.id == id);
-        const confirmar = confirm("Desea eliminar el producto:\n\n" + producto.nombre)
-
-        if (confirmar) {
-           eliminarProducto(id);
-        }
+        const producto = items.find(item => item.id == id);        
+        mostrarModal("Desea eliminar el producto:\n\n" + producto.nombre + "?", id);
     }
 
     return (

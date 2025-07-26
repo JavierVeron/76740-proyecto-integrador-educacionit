@@ -2,11 +2,11 @@ import Alta from './components/Alta'
 import CarritoDeCompras from './components/CarritoDeCompras'
 import Catalogo from './components/Catalogo'
 import Checkout from './components/Checkout'
-import APIContextProvider from './components/context/APIContext'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import ThankYou from './components/ThankYou'
+import APIContextProvider from './components/context/APIContext'
 
 function App() {
   return (

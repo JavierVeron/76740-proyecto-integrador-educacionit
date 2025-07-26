@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { APIContext } from "./context/APIContext"
 
 const Navbar = () => {
-    const {cantidadProductosCarrito} = useContext(APIContext);
+    //const {cantidadProductosCarrito} = useContext(APIContext);
 
     return (
         <div className="container my-3">
@@ -17,7 +17,7 @@ const Navbar = () => {
                             <Link className="nav-link text-dark fw-bold" to={"/alta"}>Alta</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link text-dark fw-bold" to={"/carrito"}>Carrito <span className="badge text-bg-warning">{cantidadProductosCarrito()}</span></Link>
+                            <Link className="nav-link text-dark fw-bold" to={"/carrito"}>Carrito <span className="badge text-bg-warning">{}</span></Link>
                         </li>
                     </ul>
                 </div>
