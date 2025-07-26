@@ -121,15 +121,10 @@ const APIContextProvider = ({children}) => {
     }
 
     const agregarPedido = async (pedido) => {
-        await APIClient.post("/pedidos", pedido)
-        .then(response => {
-            console.log("El pedido se generó correctamente!");
+        const response = await APIClient.post("/pedidos", pedido);
+        console.log("El pedido se generó correctamente!");            
                         
-            return response.data;
-        })
-        .catch(error => {
-            console.log("Error! No se pudo Generar el Pedido!");
-        })
+        return response.data;
     }
 
     return <APIContext.Provider value={{productos, agregarProducto, actualizarProducto, eliminarProducto, carrito, agregarProductoCarrito, eliminarProductoCarrito, incrementarItem, decrementarItem, vaciarCarrito, cantidadProductosCarrito, sumaProductosCarrito, agregarPedido}}>

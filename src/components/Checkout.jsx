@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { APIContext } from "./context/APIContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
     const {carrito, cantidadProductosCarrito, sumaProductosCarrito, agregarPedido} = useContext(APIContext);
@@ -11,6 +11,7 @@ const Checkout = () => {
     const [telefono, setTelefono] = useState("");
     const [telefonoError, setTelefonoError] = useState("");
     const [pedidoId, setPedidoId] = useState(0);
+    const navigate = useNavigate();
 
     if (cantidadProductosCarrito() == 0) {
         return (
@@ -50,15 +51,17 @@ const Checkout = () => {
         const fechActual = `${fecha.getDate()}-${fecha.getMonth()+1}-${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`; //DD-MM-AAAA HH:MM:SS
         const total = sumaProductosCarrito();
         const pedido = {comprador, items, fechActual, total};
-        const id = await agregarPedido(pedido);
-        setPedidoId(id);
+        await agregarPedido(pedido)
+        .then(data => {            
+            setPedidoId(data.id);
+        });
     }
 
-    if (pedidoId) {        
-        return (
-            <Navigate to={"/thankyou/" + pedidoId} />
-        )
-    }
+    useEffect(() => {        
+        if (pedidoId) {
+            navigate("/thankyou/" + pedidoId, {replace:true});
+        }
+    }, [pedidoId])
 
     return (
         <>
